@@ -49,7 +49,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun `fetch meanings error`() = runBlocking {
+    fun `fetch business error`() = runBlocking {
         Mockito.`when`(remoteSource.fetchBusinesses(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
             .thenReturn(Response.error(500, ResponseBody.create(null, "Server Down")))
 

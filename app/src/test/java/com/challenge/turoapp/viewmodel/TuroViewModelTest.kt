@@ -37,8 +37,9 @@ class TuroViewModelTest {
     }
 
     @Test
-    fun `fetch meanings`() = coroutineTestRule.runBlockingTest {
-        viewModel.fetchPizzaBeerBusiness().observeForever(mockObserver)
+    fun `fetch businesses`() = coroutineTestRule.runBlockingTest {
+        viewModel.businessLiveData.observeForever(mockObserver)
+        viewModel.fetchPizzaBeerBusiness()
         val business = Business(
             4.5F,
             "$",
