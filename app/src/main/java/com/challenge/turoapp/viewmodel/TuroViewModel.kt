@@ -1,17 +1,19 @@
 package com.challenge.turoapp.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import com.challenge.turoapp.repository.Repository
 import com.challenge.turoapp.repository.remote.model.Result
+import kotlinx.coroutines.launch
 
 class TuroViewModel(val repository: Repository) : ViewModel() {
 
-    fun fetchPizzaBeerBusiness(): LiveData<Result> = liveData {
-        val data = repository.fetchPizzaBeerBusiness()
-        emit(data)
+    private val _businessLiveData = MutableLiveData<Result>()
+    val businessLiveData: LiveData<Result> = _businessLiveData
+
+    fun fetchPizzaBeerBusiness() {
+        viewModelScope.launch {
+            _businessLiveData.postValue(repository.fetchPizzaBeerBusiness())
+        }
     }
 }
 

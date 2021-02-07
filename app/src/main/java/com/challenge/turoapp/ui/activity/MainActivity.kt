@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity(), Observer<Result> {
 
         AndroidInjection.inject(this)
 
+        viewModelFactory = TuroViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(TuroViewModel::class.java)
+        viewModel.businessLiveData.observe(this, this)
+
         val searchButton = findViewById<Button>(R.id.search)
         val recyclerView = findViewById<RecyclerView>(R.id.business_list)
         businessAdapter = BusinessAdapter()
@@ -45,11 +49,8 @@ class MainActivity : AppCompatActivity(), Observer<Result> {
         recyclerView.addItemDecoration(dividerItemDecoration)
         recyclerView.adapter = businessAdapter
 
-        viewModelFactory = TuroViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(TuroViewModel::class.java)
-
         searchButton.setOnClickListener {
-            viewModel.fetchPizzaBeerBusiness().observe(this, this)
+            viewModel.fetchPizzaBeerBusiness()
         }
     }
 
